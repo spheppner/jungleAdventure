@@ -28,7 +28,6 @@ protagonist = random.choice(("a young hero",
                              ))
 
 
-
 @dataclass
 class Person:
     name: str = None
@@ -58,7 +57,13 @@ class Person:
 
 if __name__ == "__main__":
     you = Person()
-    love = Person()
+    gay_chance = 0.1
+    if random.random() < gay_chance:
+        other_gender = you.gender
+        print("you are gay")
+    else:
+        other_gender = "female" if you.gender == "male" else "male"
+    love = Person(gender=other_gender)
     enemy = Person()
     npc1 = Person()
     print("you are:",you )
