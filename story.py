@@ -1,5 +1,8 @@
 ### story generator
-# (c) 2020 by Max, Simon, Horst
+# license: GPL, see https://www.gnu.org/licenses/gpl-3.0.en.html
+# (c) 2020 by Max, Simon, Horst JENS.
+# Contact: http://spielend-programmieren.at horstjens@gmail.com
+# goal: write a text-adventure in python that will eventually become a Discord bot
 
 from dataclasses import dataclass
 import random
