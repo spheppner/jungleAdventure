@@ -15,7 +15,7 @@ names_male = ["Hans", "Simon", "Max", "Benjamin", "Oliver", "Isaak", "Peter",
 names_female = ["Gretl", "Sophie", "Amelie", "Esmaralda", "Anna", 
                 "Charlotte", "Sabine", "Barbara", "Julia", "Katja", "Katharina", 
                 "Lisa", "Sonja", "Emma", "Dilara", "Fatima", "Theresa"
-                "Lara", "Sarah", "Tamara"]
+                "Lara", "Sarah", "Tamara", "Lauren"]
 names_age = ["young", "very young", "far too young", "old", "ancient",
              "middle-aged", "not even born yet"]
 names_role = ["vagabound", "farmer", "merchant", "soldier",
