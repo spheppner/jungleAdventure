@@ -8,20 +8,32 @@ from dataclasses import dataclass
 import random
 
 names_gender = ["female", "male"]
-names_male = ["Hans", "Simon", "Max", "Benjamin", "Oliver", "Issac"]
-names_female = ["Gretl", "Sophie", "Amelie", "Esmaralda"]
+names_male = ["Hans", "Simon", "Max", "Benjamin", "Oliver", "Isaak", "Peter",
+              "Stefan", "Anton", "Maurice", "Martin", "Heinrich", 
+              "Carl-Constantin", "Paul", "Mustafa", "Hakan", "Carlos", "Elias",
+              "Daniel", "Javier", "Karl", "Juan", "David"]
+names_female = ["Gretl", "Sophie", "Amelie", "Esmaralda", "Anna", 
+                "Charlotte", "Sabine", "Barbara", "Julia", "Katja", "Katharina", 
+                "Lisa", "Sonja", "Emma", "Dilara", "Fatima", "Theresa"
+                "Lara", "Sarah", "Tamara"]
 names_age = ["young", "very young", "far too young", "old", "ancient",
-             "middle-aged"]
+             "middle-aged", "not even born yet"]
 names_role = ["vagabound", "farmer", "merchant", "soldier",
              "dog breeder", "youtuber", "influcencer",
              "social-media-troll", "boomer", "netflix viewer",
              "pizza deliverer", "dog food taster",
-             "sleeper"]
+             "sleeper", "software-developer", "discord-mod",
+             "athlete", "minecraft-speedrunner", "streamer",
+             "memepage-admin", "teacher", "musician", "painter",
+             "graphic-designer"]
 names_adj = ["ugly", "rich", "glorious", "innocent",
              "cheeky", "popular", "influential",
              "beautiful", "shy", "small", "tall",
              "heavy", "fat", "skinny", "funny",
-             "discombobulated","scuba-diving", "professional"]
+             "discombobulated", "professional",
+             "dumb", "smart", "happy", "sad", 
+             "exhausted", "stressed", "depressed",
+             "fascinated", "drunk", "high"]
 
 protagonist = random.choice(("a young hero",
                              "Hans, the vagabound",
