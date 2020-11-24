@@ -131,11 +131,11 @@ if __name__ == "__main__":
              intro="first question",
              introvar={"":"Yes"})
 
-    Decision("Choose your weapon wisely...", ["Sword", "Bow", "Pen", "Pebbles", "Stick"],
+    Decision("Choose your weapon wisely...", ["Sword", "Bow", "Pen", "Pebbles"],
              intro="Your enemy is famous for",
              introvar = {
             "beating enemies to death with stones":"Pen",
-            "swordmanship":"Stick",
+            "swordmanship":"Bow",
             "fantastic aim with a bow and arrow":"Sword",
             "his written lyrics":"Pebbles",
              })
