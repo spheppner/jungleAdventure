@@ -165,6 +165,10 @@ if __name__ == "__main__":
     for p in Game.people.values():
         print(p)
     # --------------- game loop ----------------------------
+    decs = [d for d in Game.decisions.values()]
+    d1 = decs.pop(0) # remove the first item
+    random.shuffle(decs)
+    decs.insert(0, d1)
     for decision in Game.decisions.values():
         result = decision.run()
         if not result:
