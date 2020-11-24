@@ -52,6 +52,7 @@ class Game:
     enemy = None
     love = None
     npc1 = None
+    deck = []
 
 class Decision:
 
@@ -81,6 +82,29 @@ class Decision:
             return True
         else:
             return False
+
+
+class Card:
+    def __init__(self):
+        self.effect = ("nothing", 0)
+        r = random.randint(1,80)
+        self.direct_damage = {0:  ("fizzle", 0),
+                              20: ("spark", 10),
+                              40: ("fireball", 20),
+                              60: ("iceball", 35)}
+        for v in self.direct_damage.keys():
+            if r > v:
+                self.effect = self.direct_damage[v]
+
+    def __repr__(self):
+        return str(self.effect)
+
+
+
+
+
+        #self.damage =
+
 
 
 
@@ -142,11 +166,9 @@ if __name__ == "__main__":
     Decision("wich way do you choose?", ["through the giant toaster", "through the forest of super cool snakes", "through the forest of tasty trees "],
              intro="You halt at a way crossing. Due to the current situation you have to choose wisely to survive.",
              introvar = {
-            "In the land of giant butterflies there was a Power failure choose a way to take benefit of this disaster" : "through the giant toaster",
+            "In the land of giant butterflies there was a Power failure. Choose a way to take benefit from this disaster" : "through the giant toaster",
             "It is very hot right now, your body needs to get cooler fast. Which one is the right way" : "through the forest of super cool snakes",
             "You are very hungry and any food will help you. Choose the right way to not die of hunger" : "through the forest of tasty trees"
-
-
 
              }
              )
@@ -179,6 +201,19 @@ if __name__ == "__main__":
             print("bad")
             break
         print("good")
+
+        if random.random() < 0.33:
+            while True:
+                print("you have a chance to fight the enemy directly. do you...")
+                command=input("(f)ight or (r)un ?")
+                if command.lower() in ["f", "r"]:
+                    break
+            if command == "f":
+                bossfight()
+        else:
+            print("You get a new card!")
+            Game.deck.append(Card())
+            print("your deck of cards:", Game.deck)
     else:
         # no break occured, solved all questions correctly!
         print("victory for you!")
