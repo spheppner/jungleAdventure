@@ -43,6 +43,47 @@ protagonist = random.choice(("a young hero",
                              ))
 
 
+class Game:
+    person_number = 0
+    people = {}
+    decision_number = 0
+    decisions = {}
+    you = None
+    enemy = None
+    love = None
+    npc1 = None
+
+class Decision:
+
+    def __init__(self, question, answers, intro="", introvar={} ):
+        self.number = Game.decision_number
+        Game.decision_number += 1
+        Game.decisions[self.number] = self
+        self.question = question
+        self.answers = answers
+        self.correct_answer = answers[0]
+        self.intro = intro
+        self.introvar = introvar
+
+    def run(self):
+        print("-------")
+        print(self.intro)
+        iv = random.choice(list(self.introvar.keys()))
+        print(iv)
+        self.correct_answer = self.introvar[iv]
+        print("-------")
+        print(self.question)
+        random.shuffle(self.answers)
+        for i, answer in enumerate(self.answers):
+            print(i, answer)
+        command = int(input("please enter number:"))
+        if self.answers[command] == self.correct_answer:
+            return True
+        else:
+            return False
+
+
+
 @dataclass
 class Person:
     name: str = None
@@ -50,9 +91,14 @@ class Person:
     adjectives = []
     gender: str = None
     role: str = None
+    number: int = None
 
     def __post_init__(self):
         """mix the person"""
+        self.number = Game.person_number
+        Game.person_number += 1
+        Game.people[self.number] = self
+
         if self.gender is None:
             self.gender = random.choice(names_gender)
         if self.name is None:
@@ -71,17 +117,45 @@ class Person:
 
 
 if __name__ == "__main__":
-    you = Person()
+    Game.you = Person()
     gay_chance = 0.1
     if random.random() < gay_chance:
-        other_gender = you.gender
+        other_gender = Game.you.gender
         print("you are gay")
     else:
-        other_gender = "female" if you.gender == "male" else "male"
-    love = Person(gender=other_gender)
-    enemy = Person()
-    npc1 = Person()
-    print("you are:",you )
-    print("you search your lost love:", love)
-    print("who was kidnapped by your enemy:", enemy)
-    print("you see at the moment:", npc1)
+        other_gender = "female" if Game.you.gender == "male" else "male"
+    Game.love = Person(gender=other_gender)
+    Game.enemy = Person()
+    Game.npc1 = Person()
+    Decision("Dou you want to save your love?", ["Yes", "No", "Maybe", "Later, i'm busy right now"],
+             intro="first question",
+             introvar={"":"Yes"})
+
+    Decision("Choose your weapon wisely...", ["Sword", "Bow", "Pen", "Pebbles", "Stick"],
+             intro="Your enemy is famous for",
+             introvar = {
+            "beating enemies to death with stones":"Pen",
+            "swordmanship":"Stick",
+            "fantastic aim with a bow and arrow":"Sword",
+            "his written lyrics":"Pebbles",
+             })
+
+
+    print("you are:",Game.you )
+    print("you search your lost love:", Game.love)
+    print("who was kidnapped by your enemy:", Game.enemy)
+    print("you see at the moment:", Game.npc1)
+    print("----- oll persons in this game: -------")
+    for p in Game.people.values():
+        print(p)
+    # --------------- game loop ----------------------------
+    for decision in Game.decisions.values():
+        result = decision.run()
+        if not result:
+            print("bad")
+            break
+        print("good")
+    else:
+        # no break occured, solved all questions correctly!
+        print("victory for you!")
+    print("Game Over")
