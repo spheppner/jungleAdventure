@@ -146,6 +146,15 @@ if __name__ == "__main__":
 
              }
              )
+    Decision("what do you do?", ["hit him with a toaster",
+                                                  "walk through him",
+                                                  "eat him"],
+             intro="A ghost appears, made out of :",
+             introvar = {"smoke": "walk through him",
+                         "pizza-dough": "eat him",
+                         "dirt": "hit him with a toaster"
+             })
+
 
 
     print("you are:",Game.you )
