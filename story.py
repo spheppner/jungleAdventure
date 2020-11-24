@@ -139,6 +139,13 @@ if __name__ == "__main__":
             "fantastic aim with a bow and arrow":"Sword",
             "his written lyrics":"Pebbles",
              })
+    Decision("wich way to you choose?", ["left", "middle", "right"],
+             intro="You halt at a way crossing. Choose your way to the castle of your enemy",
+             introvar = {
+
+
+             }
+             )
 
 
     print("you are:",Game.you )
