@@ -41,7 +41,7 @@ if __name__ == "__main__":
         print("-----------------------------")
         print("player2, choose your card:")
         c2 = int(input(">>>"))
-        card2 = Game.deck1.pop(c2)
+        card2 = Game.deck2.pop(c2)
 
         print("------- execute ------")
         Game.hp1 -= card2.effect[1]
