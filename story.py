@@ -139,9 +139,13 @@ if __name__ == "__main__":
             "fantastic aim with a bow and arrow":"Sword",
             "his written lyrics":"Pebbles",
              })
-    Decision("wich way to you choose?", ["left", "middle", "right"],
-             intro="You halt at a way crossing. Choose your way to the castle of your enemy",
+    Decision("wich way do you choose?", ["through the giant toaster", "through the forest of super cool snakes", "through the forest of tasty trees "],
+             intro="You halt at a way crossing. Due to the current situation you have to choose wisely to survive.",
              introvar = {
+            "In the land of giant butterflies there was a Power failure choose a way to take benefit of this disaster" : "through the giant toaster",
+            "It is very hot right now, your body needs to get cooler fast. Which one is the right way" : "through the forest of super cool snakes",
+            "You are very hungry and any food will help you. Choose the right way to not die of hunger" : "through the forest of tasty trees"
+
 
 
              }
