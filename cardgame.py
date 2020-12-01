@@ -15,6 +15,12 @@
 # each player say the server (computer) witch card he wants to play
 # execution phase:
 # the computer calculates the result of all actions and displays the to the wizards
+# Discord Text: https://www.writebots.com/discord-text-formatting/
+# Bolded Text = **Example**  
+# Italized Text = *Example*
+# Underlined Text = __Example__
+# You can combine the types of texts 
+
 
 import random
 
@@ -104,10 +110,10 @@ class Simon(Monster):
 class Maxi(Monster):
 
     def __post_init__(self):
-        self.hp =  100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-        self.attack = "1000D50"
-        self.defense = "1000D50"
-        self.damage = "1000D50"
+        self.hp = "NICHT VORHANDEN"
+        self.attack = "NICHT VORHANDEN"
+        self.defense = "NICHT VORHANDEN"
+        self.damage = "NICHT VORHANDEN"
 
         self.hp = 1
         self.attack = "1d1"
