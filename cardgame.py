@@ -4,7 +4,7 @@
 # each wizard gets some random cards from a stack, forming his card-deck
 # (every wizard can only see his own card-deck)
 # type of cards:
-# direct-damgae (like Flame Bolt), directly damages one enemy figure
+# direct-damage (like Flame Bolt), directly damages one enemy figure
 # summoning: summons a monster that fights for the wizard
 # buffs: improves friendly figures
 # nerfs: nerfs enemy figures
@@ -248,18 +248,22 @@ def reroll(sides):
 # -----
 
 def main():
-    peter = Wizard()
-    emile = Wizard()
-    peter.name = "Peter"
-    emile.name = "Emile"
-    print("welcome Peter and Emile, you each get 5 cards")
-    for _ in range(5):
-        peter.deck.append(Card())
-        emile.deck.append(Card())
+    players = []
+    while True:
+        c = input(f"Enter name of player{len(players)+1} >>> ")
+        if c == "":
+            break
+        p = Wizard()
+        p.name = c
+        players.append(p)
+    print("Each player gets 5 cards")
+    for p in players:
+        for _ in range(5):
+            p.deck.append(Card())
 
     # ----- turns -----
     while True:
-        for player in (emile, peter):
+        for player in players:
             print(player.name, "Please choose your card")
             player.show_deck()
             try:
@@ -268,11 +272,10 @@ def main():
                 print("Please enter an integer, NOT a string\n")
                 continue
             player.i = i
+            print(f"{player.name}'s choice is {player.deck[player.i].effect.__name__}.")
         print("battle")
-        print("peters choice:", peter.deck[peter.i])
-        print("emiles choice:", emile.deck[emile.i])
         # ----- battle... ----
-        for player in (emile, peter):
+        for player in players:
             card = player.deck[player.i]
             print(f"Card-Type: {card.effect.__name__}")
             if Monster in card.effect.__bases__:
@@ -280,11 +283,15 @@ def main():
                 print(f"A {card.effect.__name__} joins the army of {player.name}!")
             elif DirectDamage in card.effect.__bases__:
                 print(f"{player.name} uses his card {card.effect.__name__}!")
+            print("----- Players -----")
+            for p in players:
+                print(f"Name: {p.name} | Index: {players.index(p)}")
+            vic = input(f"Choose your victim by index, {player.name} >>> ")
         # ----- ...TO BATTLEEEEE!!! -----
         print("Calculating Battle Consequences...") # ;)
-        for player in (emile, peter):
+        for player in players:
             card = player.deck[player.i]
-            victim = peter if player == emile else emile
+            victim = vic
             if DirectDamage in card.effect.__bases__:
                 real_victim = random.choice(victim.army)
                 effect = card.effect()
@@ -307,7 +314,7 @@ def main():
                     real_victim.hp -= damage
                     print(f"{real_victim.__class__.__name__} of {victim.name}'s army suffers {damage} damage. ({real_victim.hp} left)")
         # ----- CLEANSING of the army -----
-        for player in (emile, peter):
+        for player in players:
             if player.hp <= 0:
                 print("You are so bad at this game", player.name)
             player.army = [m for m in player.army if m.hp > 0]
