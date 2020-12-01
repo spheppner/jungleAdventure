@@ -64,7 +64,7 @@ class Wizard(Monster):
         self.damage = "2d4"
         self.deck = []
         self.i = None
-        self.army = []
+        self.army = [self]
 
     def show_deck(self):
         for index, card in enumerate(self.deck):
@@ -98,7 +98,7 @@ class Hornet(Monster):
         self.hp = 4
         self.attack = "1d6"
         self.defense = "1d20"
-        self.damage = 1
+        self.damage = "1d2"
         self.damage_poison = 10
 
 
@@ -121,13 +121,14 @@ class DirectDamage:
 class Thunderbolt(DirectDamage):
 
     def __post_init__(self):
+        self.damage = "1d6"
         self.damage_electro = "4d6"
 
 
 class Fireball(DirectDamage):
 
     def __post_init__(self):
-        self.damage = 0
+        self.damage = "2d6"
         self.damage_fire = "2d6"
         self.victims = "1d3+2"
 
@@ -245,7 +246,7 @@ def main():
         print("battle")
         print("peters choice:", peter.deck[peter.i])
         print("emiles choice:", emile.deck[emile.i])
-        # ----- battle ----
+        # ----- battle... ----
         for player in (emile, peter):
             card = player.deck[player.i]
             print(f"Card-Type: {card.effect.__name__}")
@@ -254,6 +255,37 @@ def main():
                 print(f"A {card.effect.__name__} joins your army of {player.name}!")
             elif DirectDamage in card.effect.__bases__:
                 print(f"{player.name} uses his card {card.effect.__name__}!")
+        # ----- ...TO BATTLEEEEE!!! -----
+        print("Calculating Battle Consequences...") # ;)
+        for player in (emile, peter):
+            card = player.deck[player.i]
+            victim = peter if player == emile else emile
+            if DirectDamage in card.effect.__bases__:
+                real_victim = random.choice(victim.army)
+                effect = card.effect()
+                damage = dicethrow(effect.damage)
+                real_victim.hp -= damage
+                print(f"{real_victim.__class__.__name__} of {victim.name}'s army suffers {damage} damage. ({real_victim.hp} left)")
+            # ----- Army strikes back -----
+            for monster in player.army:
+                if monster == player:
+                    continue
+                real_victim = random.choice(victim.army)
+                attack = dicethrow(monster.attack)
+                defense = dicethrow(real_victim.defense)
+                damage = dicethrow(monster.damage)
+
+                print(f"{monster.__class__.__name__} of {player.name}'s army attacks {real_victim.__class__.__name__} of {victim.name}'s army.")
+                if defense >= attack:
+                    print("Attack fails :(")
+                else:
+                    real_victim.hp -= damage
+                    print(f"{real_victim.__class__.__name__} of {victim.name}'s army suffers {damage} damage. ({real_victim.hp} left)")
+        # ----- CLEANSING of the army -----
+        for player in (emile, peter):
+            if player.hp <= 0:
+                print("You are so bad at this game", player.name)
+            player.army = [m for m in player.army if m.hp > 0]
 
 if __name__ == "__main__":
     main()
