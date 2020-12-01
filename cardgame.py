@@ -132,7 +132,7 @@ class Fireball(DirectDamage):
         self.victims = "1d3+2"
 
 
-class PoisionCloud(DirectDamage):
+class PoisonCloud(DirectDamage):
     pass
 
 
@@ -144,7 +144,7 @@ class Card:
     cards = {
         0: Thunderbolt,
         25: Fireball,  # 46-25 = 20%
-        46: PoisionCloud,  # 50-46 = 1%
+        46: PoisonCloud,  # 50-46 = 1%
         50: Hornet,
         80: Minion,
         85: Dwarf,  # up-low = 90-85 = 5%
