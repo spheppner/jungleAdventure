@@ -234,21 +234,26 @@ def main():
     # ----- turns -----
     while True:
         for player in (emile, peter):
-            print(player.name, "please choose your card (index)")
+            print(player.name, "Please choose your card")
             player.show_deck()
-            i = int(input("enter card index"))
+            try:
+                i = int(input("Index? >>> "))
+            except ValueError:
+                print("Please enter an integer, NOT a string\n")
+                continue
             player.i = i
         print("battle")
         print("peters choice:", peter.deck[peter.i])
         print("emiles choice:", emile.deck[emile.i])
         # ----- battle ----
         for player in (emile, peter):
-            effect = player.deck[player.i]
-            print("type:", type(effect))
-            if type(effect) == Monster:
-                player.army.append(effect())
-            print(player.army)
-
+            card = player.deck[player.i]
+            print(f"Card-Type: {card.effect.__name__}")
+            if Monster in card.effect.__bases__:
+                player.army.append(card.effect())
+                print(f"A {card.effect.__name__} joins your army of {player.name}!")
+            elif DirectDamage in card.effect.__bases__:
+                print(f"{player.name} uses his card {card.effect.__name__}!")
 
 if __name__ == "__main__":
     main()
