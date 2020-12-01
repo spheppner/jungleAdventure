@@ -104,10 +104,10 @@ class Simon(Monster):
 class Maxi(Monster):
 
     def __post_init__(self):
-        self.hp = "NICHT VORHANDEN"
-        self.attack = "NICHT VORHANDEN"
-        self.defense = "NICHT VORHANDEN"
-        self.damage = "NICHT VORHANDEN"
+        self.hp =  100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+        self.attack = "1000D50"
+        self.defense = "1000D50"
+        self.damage = "1000D50"
 
         self.hp = 1
         self.attack = "1d1"
