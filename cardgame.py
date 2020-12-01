@@ -58,7 +58,7 @@ class Monster:
 class Wizard(Monster):
 
     def __post_init__(self):
-        self.hp = 500
+        self.hp = 150
         self.attack = "4d4"
         self.defense = "2d6"
         self.damage = "2d4"
@@ -95,7 +95,7 @@ class HellHound(Monster):
 class Hornet(Monster):
 
     def __post_init__(self):
-        self.hp = 4
+        self.hp = 40
         self.attack = "1d6"
         self.defense = "1d20"
         self.damage = "1d2"
