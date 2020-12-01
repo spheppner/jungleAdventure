@@ -6,24 +6,26 @@
 # type of cards:
 # direct-damgae (like Flame Bolt), directly damages one enemy figure
 # summoning: summons a monster that fights for the wizard
-# buffs: improves friendly figures 
+# buffs: improves friendly figures
 # nerfs: nerfs enemy figures
 # trading of cards:
 # each wizard has the option to trade several cards against a unknown card of a higher level
 # turns:
-# planning phase: 
+# planning phase:
 # each player say the server (computer) witch card he wants to play
 # execution phase:
 # the computer calculates the result of all actions and displays the to the wizards
 
 import random
 
+
 class Game:
     monsternumber = 0
     time = 0
 
+
 class Monster:
-    
+
     def __init__(self):
         self.number = Game.monsternumber
         Game.monsternumber += 1
@@ -45,15 +47,16 @@ class Monster:
         # ---- other ---
         self.age = 0
         self.__post_init__()
-        
+
     def __post_init__(self):
         pass
-        
+
     def ai(self):
         pass
-        
+
+
 class Wizard(Monster):
-    
+
     def __post_init__(self):
         self.hp = 500
         self.attack = "4d4"
@@ -62,21 +65,23 @@ class Wizard(Monster):
         self.deck = []
         self.i = None
         self.army = []
-        
+
     def show_deck(self):
         for index, card in enumerate(self.deck):
-            print("index:", index, "card:", card.effect.__name__ )
-        
+            print("index:", index, "card:", card)
+
+
 class Minion(Monster):
-    
+
     def __post_init__(self):
         self.hp = 50
         self.attack = "2d4"
         self.defense = "1d4"
         self.damage = "1d4"
-        
+
+
 class HellHound(Monster):
-    
+
     def __post_init__(self):
         self.hp = 80
         self.attack = "1d20"
@@ -85,18 +90,20 @@ class HellHound(Monster):
         self.resist_fire = 20
         self.resist_cold = -10
         self.damage_fire = 5
-        
+
+
 class Hornet(Monster):
-    
+
     def __post_init__(self):
         self.hp = 4
         self.attack = "1d6"
         self.defense = "1d20"
         self.damage = 1
         self.damage_poison = 10
-        
+
+
 class DirectDamage:
-    
+
     def __init__(self):
         self.damage = 1
         self.victims = 1
@@ -106,52 +113,60 @@ class DirectDamage:
         self.damage_poision = 0
         self.damage_electro = 0
         self.__post_init__()
-        
+
     def __post_init__(self):
         pass
-        
+
+
 class Thunderbolt(DirectDamage):
-    
-    def post_init__(self):
+
+    def __post_init__(self):
         self.damage_electro = "4d6"
-        
+
+
 class Fireball(DirectDamage):
-    
-    def post_init__(self):
+
+    def __post_init__(self):
         self.damage = 0
         self.damage_fire = "2d6"
         self.victims = "1d3+2"
-        
+
+
 class PoisionCloud(DirectDamage):
     pass
-    
+
+
 class Dwarf(Monster):
     pass
 
-    
 
 class Card:
     cards = {
-              0: Thunderbolt,
-             25: Fireball,     # 46-25 = 20%
-             46: PoisionCloud, # 50-49 = 1%
-             50: Hornet,
-             80: Minion,
-             85: Dwarf,         # 90-85= 5%
-             90: HellHound,
-             }
-    
+        0: Thunderbolt,
+        25: Fireball,  # 46-25 = 20%
+        46: PoisionCloud,  # 50-46 = 1%
+        50: Hornet,
+        80: Minion,
+        85: Dwarf,  # up-low = 90-85 = 5%
+        90: HellHound,
+    }
+
     def __init__(self):
-        self.r = random.randint(1,100)
+        self.r = random.randint(1, 100)
         cardranks = Card.cards.keys()
-        for x in range(self.r):
-            if x in Card.cards:
+        for x in range(100):
+            if x <= self.r and x in cardranks:
                 self.effect = Card.cards[x]
-                
+                self.lower_limit = x
+            if x > self.r and x in cardranks:
+                self.upper_limit = x
+                break
+        else:
+            self.upper_limit = 100
+        self.percentage = self.upper_limit - self.lower_limit
+
     def __repr__(self):
-        return f"rank {self.r} " + str(self.effect)
-                
-        
+        return f"Level: {self.r} | Effect: {self.effect.__name__} | Probability: {self.percentage}%"
 
 
 def dicethrow(dicestring="1d6+0"):
@@ -181,16 +196,16 @@ def dicethrow(dicestring="1d6+0"):
         print("+", end="")
         total += roll
     print(fix, end="")
-    print("=", total+fix)
-    return total+fix
-    
-    
+    print("=", total + fix)
+    return total + fix
+
+
 def reroll(sides):
     """
-    dicestring must have a capital D like '1D6' 
+    dicestring must have a capital D like '1D6'
     the part before the 'D' is number of dice
     the parte after 'D' is number of sides per die
-    when a die rolls the highest number, it is counted as 
+    when a die rolls the highest number, it is counted as
     (sides -1) and rolls again (this can repeated theoretically endless)
     """
     total = 0
@@ -198,26 +213,28 @@ def reroll(sides):
     print(roll, end="")
     if roll == sides:
         print("-1+", end="")
-        total += (sides-1) + reroll(sides)
+        total += (sides - 1) + reroll(sides)
     else:
         total += roll
     return total
-# ----- 
+
+
+# -----
 
 def main():
     peter = Wizard()
     emile = Wizard()
     peter.name = "Peter"
-    emile.name= "Emile"
+    emile.name = "Emile"
     print("welcome Peter and Emile, you each get 5 cards")
     for _ in range(5):
         peter.deck.append(Card())
         emile.deck.append(Card())
-    
+
     # ----- turns -----
     while True:
         for player in (emile, peter):
-            print(player.name, "pleace choose your card (index)")
+            print(player.name, "please choose your card (index)")
             player.show_deck()
             i = int(input("enter card index"))
             player.i = i
@@ -229,29 +246,22 @@ def main():
             effect = player.deck[player.i]
             print("type:", type(effect))
             if type(effect) == Monster:
-                
                 player.army.append(effect())
             print(player.army)
-        
-    
-    
-    
-    
+
 
 if __name__ == "__main__":
-    
     main()
-    #for _ in range(10):
+    # for _ in range(10):
     #    print(Card())
- 
-        
+
 # ---- testing ----
-#dicethrow("3d6")
-#dicethrow("4d4+2")   
-#for _ in range(20):
-#    dicethrow("1d20") 
-   
-        
-        
-        
+# dicethrow("3d6")
+# dicethrow("4d4+2")
+# for _ in range(20):
+#    dicethrow("1d20")
+
+
+
+
 
