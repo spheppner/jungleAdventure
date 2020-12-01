@@ -15,6 +15,12 @@
 # each player say the server (computer) witch card he wants to play
 # execution phase:
 # the computer calculates the result of all actions and displays the to the wizards
+# Discord Text: https://www.writebots.com/discord-text-formatting/
+# Bolded Text = **Example**  
+# Italized Text = *Example*
+# Underlined Text = __Example__
+# You can combine the types of texts 
+
 
 import random
 
