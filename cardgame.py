@@ -92,6 +92,29 @@ class HellHound(Monster):
         self.damage_fire = 5
 
 
+class Simon(Monster):
+
+    def __post_init__(self):
+        self.hp = 1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+        self.attack = "100D50"
+        self.defense = "100D50"
+        self.damage = "100D50"
+
+
+class Maxi(Monster):
+
+    def __post_init__(self):
+        self.hp = "NICHT VORHANDEN"
+        self.attack = "NICHT VORHANDEN"
+        self.defense = "NICHT VORHANDEN"
+        self.damage = "NICHT VORHANDEN"
+
+        self.hp = 1
+        self.attack = "1d1"
+        self.defense = "1d1"
+        self.damage = "1d1"
+
+
 class Hornet(Monster):
 
     def __post_init__(self):
@@ -147,6 +170,8 @@ class Card:
         25: Fireball,  # 46-25 = 20%
         46: PoisonCloud,  # 50-46 = 1%
         50: Hornet,
+        65: Maxi,
+        70: Simon,
         80: Minion,
         85: Dwarf,  # up-low = 90-85 = 5%
         90: HellHound,
@@ -167,7 +192,7 @@ class Card:
         self.percentage = self.upper_limit - self.lower_limit
 
     def __repr__(self):
-        return f"Level: {self.r:>2} | Probability: {self.percentage:>7.1f}% | Effect: {self.effect.__name__:>20} "
+        return f"Level: {self.r:>2} | Effect: {self.effect.__name__:>20} | Probability: {self.percentage:>7.1f}%"
 
 
 def dicethrow(dicestring="1d6+0"):
@@ -186,18 +211,18 @@ def dicethrow(dicestring="1d6+0"):
     throws = int(rest.lower().split("d")[0])
     die = int(rest.lower().split("d")[1])
     # --- roll ---
-    print("rolling " + dicestring + ": ", end="")
+    #print("rolling " + dicestring + ": ", end="")
     total = 0
     for number in range(throws):
         if rerolling:
             roll = reroll(die)
         else:
             roll = random.randint(1, die)
-            print(roll, end="")
-        print("+", end="")
+            #print(roll, end="")
+        #print("+", end="")
         total += roll
-    print(fix, end="")
-    print("=", total + fix)
+    #print(fix, end="")
+    #print("=", total + fix)
     return total + fix
 
 
@@ -211,9 +236,9 @@ def reroll(sides):
     """
     total = 0
     roll = random.randint(1, sides)
-    print(roll, end="")
+    #print(roll, end="")
     if roll == sides:
-        print("-1+", end="")
+        #print("-1+", end="")
         total += (sides - 1) + reroll(sides)
     else:
         total += roll
@@ -252,7 +277,7 @@ def main():
             print(f"Card-Type: {card.effect.__name__}")
             if Monster in card.effect.__bases__:
                 player.army.append(card.effect())
-                print(f"A {card.effect.__name__} joins your army of {player.name}!")
+                print(f"A {card.effect.__name__} joins the army of {player.name}!")
             elif DirectDamage in card.effect.__bases__:
                 print(f"{player.name} uses his card {card.effect.__name__}!")
         # ----- ...TO BATTLEEEEE!!! -----
