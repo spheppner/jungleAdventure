@@ -166,7 +166,7 @@ class Card:
         self.percentage = self.upper_limit - self.lower_limit
 
     def __repr__(self):
-        return f"Level: {self.r} | Effect: {self.effect.__name__} | Probability: {self.percentage}%"
+        return f"Level: {self.r:>2} | Probability: {self.percentage:>7.1f}% | Effect: {self.effect.__name__:>20} "
 
 
 def dicethrow(dicestring="1d6+0"):
