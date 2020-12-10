@@ -283,13 +283,16 @@ def ask_players(players):
 
         # ------- choose card ------
         # print(player.name, "your deck of cards:")
-        player.show_deck()
-        try:
-            i = int(input("Card Index? >>> "))
-        except ValueError:
-            print("Please enter an integer, NOT a string\n")
-            continue
-        player.i = i
+        #TODO ---> repair loop
+        while True:
+            player.show_deck()
+            try:
+                i = int(input("Card Index? >>> "))
+            except ValueError:          
+                print("Please enter an integer, NOT a string\n")
+                continue
+            player.i = i
+            break
         print(f"{player.name}'s choice is {player.deck[player.i].effect.__name__}.")
     print("battle")
 
