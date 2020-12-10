@@ -36,6 +36,7 @@ class Monster:
         self.number = Game.monsternumber
         Game.monsternumber += 1
         self.hp = 100
+        self.hp_old = 100
         self.attack = "2d6"
         self.defense = "1d10"
         self.damage = "1d4"
@@ -67,7 +68,9 @@ class Monster:
         return f"{self.__class__.__name__} (#{self.number})"
 
     def __repr__(self):
-        return f"{self.__class__.__name__} hp: {self.hp} att: {self.attack} def: {self.defense} dmg: {self.damage} special: {None}"
+        deltahp = self.hp - self.hp_old
+        change = "+" if deltahp >= 0 else "-"
+        return f"{self.__class__.__name__:>20} | hp: {self.hp:>4} ({change}{abs(deltahp):>3}) | att: {self.attack:>6} | def: {self.defense:>6} | dmg: {self.damage:>6} | special: {None}"
 
 
 class Wizard(Monster):
@@ -85,10 +88,10 @@ class Wizard(Monster):
     def show_army(self):
         # print("-=-=- your army -=-=-")
         for soldier in self.army:
-            print(f"..........{soldier}")
+            print(f" {soldier}")
 
     def show_deck(self):
-        print("-=-=- your card deck -=-=-")
+        print("\n-=-=- your card deck -=-=-")
         for index, card in enumerate(self.deck):
             print("index:", index, "card:", card)
 
@@ -253,7 +256,7 @@ def ask_players(players):
     """
     for player in players:
         print(f"--- this is your turn, player {player.name} -----")
-        input("press enter to continue")
+        input("press enter to continue\n")
         for enemy in [p for p in players if p != player]:
             print(f" ----- hostile army of {enemy.name}: -----")
             enemy.show_army()
@@ -296,7 +299,6 @@ def ask_players(players):
         print(f"{player.name}'s choice is {player.deck[player.i].effect.__name__}.")
     print("battle")
 
-
 def clean_armies(players):
     # ----- CLEANSING of the army -----
     for player in players:
@@ -320,6 +322,10 @@ def main():
     for p in players:
         for _ in range(5):
             p.deck.append(Card())  # TODO make card stack
+    # --- save old hitpoints ---
+    for player in players:
+        for monster in player.army:
+            monster.hp_old = monster.hp 
 
     # ======= ----- turns , main loop ----- ====================
     while True:
