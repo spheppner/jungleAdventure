@@ -416,7 +416,7 @@ def main():
         # ------ your army counterattacks -----
         for player in players:
             player.text.append("melee phase: your army counterattacks...")
-            for solider in player.army:
+            for soldier in player.army:
                 for enemy in soldier.revenge:
                     attack = dicethrow(soldier.attack)
                     defense = dicethrow(enemy.defense)
@@ -425,9 +425,12 @@ def main():
                     #TODO Group attack penalty --> share attack damage among others
                     result = "fail, defense too hight, zero damage" if defense >= attack else f"sucess, damage: {soldier.damage}={damage} ({enemy.hp - damage} hp left)"
                     player.text.append(
+                        f"Your {soldier.shortname} takes revenge on {enemy.shortname}")
+                    player.text.append(
                         f"counterattack: {soldier.attack}={attack} vs. defense {enemy.defense}={defense}: {result}")
                     if attack > defense:
                         enemy.history.append([damage, soldier, player])
+            soldier.revenge = []
                         
         #---- receiving damage from counterattack
         for player in players: 
