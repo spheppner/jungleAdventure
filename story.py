@@ -5,6 +5,7 @@
 # goal: write a text-adventure in python that will eventually become a Discord bot
 
 from dataclasses import dataclass
+from collections import namedtuple
 import random
 
 names_gender = ["female", "male"]
@@ -55,6 +56,7 @@ class Game:
     deck = []
 
 class Decision:
+    # TODO: typing.namedtuple ?
 
     def __init__(self, question, answers, intro="", introvar={} ):
         self.number = Game.decision_number
