@@ -286,7 +286,6 @@ def ask_players(players):
 
         # ------- choose card ------
         # print(player.name, "your deck of cards:")
-        #TODO ---> repair loop
         while True:
             player.show_deck()
             try:
@@ -409,7 +408,7 @@ def main():
                     f"attack: {soldier.attack}={attack} vs. defense {victim_monster.defense}={defense}: {result}")
                 if attack > defense:
                     victim_monster.history.append([damage, soldier, enemy])
-                # the victim remembers for counter-attacking later                
+                # the victim remembers for counter-attacking later
                 victim_monster.revenge.append(soldier)
 
         # ----- reciving damage from melee attack phase
@@ -430,8 +429,8 @@ def main():
                     attack = dicethrow(soldier.attack)
                     defense = dicethrow(enemy.defense)
                     damage = dicethrow(soldier.damage)
-                    # result =    # TODO hier weitermachen                   
-                    #TODO Group attack penalty --> share attack damage among others
+                    # result =    # TODO hier weitermachen
+                    # TODO Group attack penalty --> share attack damage among others
                     result = "fail, defense too hight, zero damage" if defense >= attack else f"sucess, damage: {soldier.damage}={damage} ({enemy.hp - damage} hp left)"
                     player.text.append(
                         f"Your {soldier.shortname} takes revenge on {enemy.shortname}")
@@ -439,21 +438,22 @@ def main():
                         f"counterattack: {soldier.attack}={attack} vs. defense {enemy.defense}={defense}: {result}")
                     if attack > defense:
                         enemy.history.append([damage, soldier, player])
-            soldier.revenge = []
-                        
-        #---- receiving damage from counterattack
-        for player in players: 
+                soldier.revenge = []
+
+        # ---- receiving damage from counterattack
+        for player in players:
             player.text.append("melee phase: your army reveiced counterattacks...")
             for soldier in player.army:
                 for damage, opponent, enemy in soldier.history:
                     soldier.hp -= damage
-                    player.text.append(f"The {opponent.shortname} from {enemy.name}'s army takes revenge on your {soldier.shortname}!")
+                    player.text.append(
+                        f"The {opponent.shortname} from {enemy.name}'s army takes revenge on your {soldier.shortname}!")
                     player.text.append(f"Your {soldier.shortname} suffers {damage} HP and has {soldier.hp} HP left.")
                 soldier.history = []
-                
+
         # ----remove dead monsters
         clean_armies(players)
-                    
+
         # ------ output for each player ------
         for player in players:
             print("===== history for ", player.name, "=======")
@@ -475,6 +475,5 @@ if __name__ == "__main__":
 # dicethrow("4d4+2")
 # for _ in range(20):
 #    dicethrow("1d20")
-
 
 
